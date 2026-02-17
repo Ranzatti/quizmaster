@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1035347454854",
+    "project_id": "quizandroid-5636b",
+    "storage_bucket": "quizandroid-5636b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035347454854:android:d14eafea124570ee671a07",
+        "android_client_info": {
+          "package_name": "com.example.quizandroid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC70Qhxgt-9thD64pAj4ahZgFvCsZm9z1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

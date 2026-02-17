@@ -1,0 +1,5 @@
+/build
+/proguard-rules.pro
+/src/main/AndroidManifest.xml
+/src/androidTest/java/com/example/quizandroid/ExampleInstrumentedTest.kt
+/src/test/java/com/example/quizandroid/ExampleUnitTest.kt
