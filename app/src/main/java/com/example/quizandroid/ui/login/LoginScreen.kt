@@ -24,8 +24,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.quizandroid.R
+import com.example.quizandroid.data.model.UserPrefsManager
 import com.example.quizandroid.translateFirebaseError
+import com.example.quizandroid.ui.theme.Laranja
 import com.google.firebase.auth.FirebaseAuth
+
+
 
 @Composable
 fun LoginScreen(
@@ -39,9 +43,7 @@ fun LoginScreen(
 
     val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
-
-    // Cor Laranja do Tema
-    val primaryOrange = Color(0xFFF57C00)
+    val userPrefs = UserPrefsManager(context)
 
     val isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     val isPasswordValid = password.length >= 6
@@ -54,6 +56,10 @@ fun LoginScreen(
                 .addOnCompleteListener { task ->
                     isLoading = false
                     if (task.isSuccessful) {
+                        val firebaseUser = auth.currentUser
+                        firebaseUser?.let {
+                            userPrefs.saveUser(it.uid, email, "Usuário")
+                        }
                         onLoginSuccess()
                     } else {
                         val errorMsg = translateFirebaseError(task.exception)
@@ -108,7 +114,7 @@ fun LoginScreen(
                 Text(
                     text = "Bem-vindo!",
                     style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                    color = primaryOrange
+                    color = Laranja
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -120,14 +126,14 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                    leadingIcon = { Icon(Icons.Default.Email, null, tint = primaryOrange) },
+                    leadingIcon = { Icon(Icons.Default.Email, null, tint = Laranja) },
                     singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.Black,
                         unfocusedTextColor = Color.Black,
-                        focusedBorderColor = primaryOrange,
+                        focusedBorderColor = Laranja,
                         unfocusedBorderColor = Color.LightGray,
-                        focusedLabelColor = primaryOrange
+                        focusedLabelColor = Laranja
                     )
                 )
 
@@ -141,7 +147,7 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    leadingIcon = { Icon(Icons.Default.Lock, null, tint = primaryOrange) }, // Ícone Laranja
+                    leadingIcon = { Icon(Icons.Default.Lock, null, tint = Laranja) }, // Ícone Laranja
                     trailingIcon = {
                         val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
@@ -152,9 +158,9 @@ fun LoginScreen(
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Color.Black,
                         unfocusedTextColor = Color.Black,
-                        focusedBorderColor = primaryOrange, // Borda Laranja
+                        focusedBorderColor = Laranja, // Borda Laranja
                         unfocusedBorderColor = Color.LightGray,
-                        focusedLabelColor = primaryOrange
+                        focusedLabelColor = Laranja
                     )
                 )
 
@@ -174,7 +180,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(32.dp))
 
                 if (isLoading) {
-                    CircularProgressIndicator(color = primaryOrange)
+                    CircularProgressIndicator(color = Laranja)
                 } else {
                     Button(
                         onClick = { performLogin() },
@@ -182,7 +188,7 @@ fun LoginScreen(
                         modifier = Modifier.fillMaxWidth().height(56.dp),
                         shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = if (canSubmit) primaryOrange else Color.Gray, // Botão Laranja
+                            containerColor = if (canSubmit) Laranja else Color.Gray, // Botão Laranja
                             contentColor = Color.White
                         )
                     ) {
@@ -194,7 +200,7 @@ fun LoginScreen(
                     TextButton(onClick = onNavigateToRegister) {
                         Text(
                             text = "Não tem uma conta? Cadastre-se",
-                            color = primaryOrange, // Link Laranja
+                            color = Laranja, // Link Laranja
                             fontWeight = FontWeight.SemiBold
                         )
                     }
